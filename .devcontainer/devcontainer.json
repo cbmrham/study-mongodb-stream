@@ -1,0 +1,113 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-in-docker
+{
+  "name": "Docker in Docker",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  // "dockerFile": "Dockerfile",
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [3000, 4200],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "20.10",
+      "enableNonRootDocker": "true",
+      "moby": "true",
+      "installZsh": "true"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
+  },
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "docker --version && yarn global add node-gyp",
+  // default user
+  // "remoteUser": "vscode",
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "workbench.colorTheme": "Default Dark+",
+      "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": true,
+        "scminput": false,
+        "yaml": true
+      },
+      "diffEditor.ignoreTrimWhitespace": false,
+      "editor.codeActionsOnSave": {
+        "source.fixAll.tslint": true
+      },
+      "editor.formatOnSave": true,
+      "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "typescript.updateImportsOnFileMove.enabled": "always",
+      "eslint.format.enable": true,
+      "eslint.run": "onSave",
+      "bracketPairColorizer.depreciation-notice": false,
+      "editor.suggestSelection": "first",
+      "extensions": [
+        "redhat.vscode-yaml",
+        "DavidAnson.vscode-markdownlint",
+        "donjayamanne.githistory",
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "GitHub.copilot",
+        "GitHub.vscode-pull-request-github",
+        "hashicorp.terraform",
+        "kaiwood.endwise",
+        "mhutchie.git-graph",
+        "mquandalle.graphql",
+        "ms-azuretools.vscode-docker",
+        "naumovs.color-highlight",
+        "oderwat.indent-rainbow",
+        "PKief.material-icon-theme",
+        "Prisma.prisma",
+        "PulkitGangwar.nextjs-snippets",
+        "redhat.vscode-yaml",
+        "sohamkamani.code-eol",
+        "stylelint.vscode-stylelint",
+        "tonybaloney.vscode-pets",
+        "vscode-icons-team.vscode-icons",
+        "wix.vscode-import-cost",
+        "robertz.code-snapshot"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+          },
+          "zsh": {
+            "path": "zsh"
+          },
+          "fish": {
+            "path": "fish"
+          },
+          "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+          },
+          "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+          }
+        }
+      }
+    }
+  }
+}
