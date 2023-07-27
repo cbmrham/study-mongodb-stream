@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    # https://github.com/CandisIO/mongo-replica-set
+    image: candis/mongo-replica-set
+    ports:
+      - 27017:27017
+      - 27018:27018
+      - 27019:27019
+    volumes:
+      - ./docker/db/data/mongo1:/var/lib/mongo1
+      - ./docker/db/data/mongo2:/var/lib/mongo2
+      - ./docker/db/data/mongo3:/var/lib/mongo3
+      - ./docker/db/log/mongo1:/var/log/mongo1
+      - ./docker/db/log/mongo2:/var/log/mongo2
+      - ./docker/db/log/mongo3:/var/log/mongo3
