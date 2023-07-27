@@ -3,7 +3,7 @@ import { PrismaService } from './lib/prisma.service';
 
 export * from './lib/prisma-client-main.module';
 export * from './lib/prisma.service';
-export { User, Post, Prisma } from '@prisma/client/main';
+export * from '@prisma/client/main';
 
 export async function registerPrismaShutdown(app: INestApplication) {
   // recommended by NestJS
