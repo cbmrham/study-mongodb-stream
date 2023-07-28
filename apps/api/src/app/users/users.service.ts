@@ -9,13 +9,13 @@ import {
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async user(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
+  async get(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findUnique({
       where: userWhereUniqueInput,
     });
   }
 
-  async users(options: {
+  async index(options: {
     skip?: number;
     take?: number;
     cursor?: Prisma.UserWhereUniqueInput;
@@ -33,13 +33,13 @@ export class UsersService {
     });
   }
 
-  async createUser(data: Prisma.UserCreateInput) {
+  async create(data: Prisma.UserCreateInput) {
     return this.prisma.user.create({
       data,
     });
   }
 
-  async updateUser(options: {
+  async update(options: {
     where: Prisma.UserWhereUniqueInput;
     data: Prisma.UserUpdateInput;
   }) {
@@ -50,7 +50,7 @@ export class UsersService {
     });
   }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput) {
+  async delete(where: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.delete({
       where,
     });

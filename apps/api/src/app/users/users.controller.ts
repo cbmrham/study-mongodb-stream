@@ -16,32 +16,32 @@ export class UsersController {
 
   @Post('login')
   login(@Body() body: Prisma.UserWhereUniqueInput) {
-    return this.service.user(body);
+    return this.service.get(body);
   }
 
   @Get(':id')
-  getUser(@Param('id') id: string) {
-    return this.service.user({ id });
+  get(@Param('id') id: string) {
+    return this.service.get({ id });
   }
 
   @Get()
-  getUsers(@Body() body: any) {
-    return this.service.users(body);
+  index(@Body() body: any) {
+    return this.service.index(body);
   }
 
   @Post()
-  createUser(@Body() body: Prisma.UserCreateInput) {
+  create(@Body() body: Prisma.UserCreateInput) {
     console.log(body);
-    return this.service.createUser(body);
+    return this.service.create(body);
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() body: Prisma.UserUpdateInput) {
-    return this.service.updateUser({ where: { id }, data: body });
+  update(@Param('id') id: string, @Body() body: Prisma.UserUpdateInput) {
+    return this.service.update({ where: { id }, data: body });
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: string) {
-    return this.service.deleteUser({ id });
+  delete(@Param('id') id: string) {
+    return this.service.delete({ id });
   }
 }
