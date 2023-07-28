@@ -11,7 +11,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useContext, useState } from 'react';
+import { User, UserContext } from './contexts/UserContext';
 
 type UserInput = {
   uid: string;
@@ -20,12 +22,14 @@ type UserInput = {
 };
 
 const SignIn = () => {
+  const [currentUser, setCurrentUser] = useContext(UserContext);
   const [uid, setUid] = useState<string>('');
   const [user, setUser] = useState<UserInput>({
     uid: '',
     email: '',
     name: '',
   });
+  const router = useRouter();
 
   console.log(user);
 
@@ -44,8 +48,17 @@ const SignIn = () => {
         'Content-Type': 'application/json', // コンテンツタイプをJSONに設定
       },
       body: JSON.stringify({ uid }),
+    }).then((res) => {
+      if (!res.ok) {
+        alert('ユーザーが見つかりません');
+        return;
+      }
+      return res.json();
     });
+
     console.log(res);
+    setCurrentUser(res as unknown as User);
+    router.push('/rooms');
   };
 
   const onRegister = async () => {
@@ -57,7 +70,13 @@ const SignIn = () => {
       },
       body: JSON.stringify(user),
     });
+    if (!res.ok) {
+      alert('ユーザーが見つかりません');
+      return;
+    }
     console.log(res);
+    // setCurrentUser(res as unknown as User);
+    router.push('/rooms');
   };
   return (
     <>

@@ -1,5 +1,6 @@
 import ThemeRegistry from './ThemeRegistry';
 import { AppBar, Typography, Grid } from '@mui/material';
+import { UserContextProvider } from './contexts/UserContext';
 
 export const metadata = {
   title: 'Welcome to frontend',
@@ -23,7 +24,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               <Grid item xs={2} />
             </Grid>
           </AppBar>
-          {children}
+          <UserContextProvider>{children}</UserContextProvider>
         </ThemeRegistry>
       </body>
     </html>
