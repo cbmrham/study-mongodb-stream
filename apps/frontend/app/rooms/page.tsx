@@ -52,7 +52,7 @@ export default function Rooms() {
   }, [currentUser, router]);
 
   const onClickJoinRoom = (roomId: string) => {
-    console.log(roomId);
+    router.push(`/rooms/${roomId}/chat`);
   };
 
   const handleOnChangeCreateRoomName = (
