@@ -10,7 +10,7 @@ import {
   ChatPost,
   PrismaService,
 } from '@study-mongodb-stream/prisma-client-main';
-import { BSON, ChangeStream, Collection, Db, ObjectId } from 'mongodb';
+import { ChangeStream, Collection, Db, ObjectId } from 'mongodb';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
