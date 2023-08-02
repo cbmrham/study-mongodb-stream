@@ -94,6 +94,7 @@ export default function Rooms() {
                   {rooms.map((room) => (
                     <>
                       <ListItem
+                        key={room.id}
                         secondaryAction={
                           <Button
                             variant="contained"
@@ -103,11 +104,7 @@ export default function Rooms() {
                           </Button>
                         }
                       >
-                        <ListItemText
-                          key={room.id}
-                          sx={{ w: '100%' }}
-                          primary={room.name}
-                        />
+                        <ListItemText sx={{ w: '100%' }} primary={room.name} />
                       </ListItem>
                       <Divider />
                     </>

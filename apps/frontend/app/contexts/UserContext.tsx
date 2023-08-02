@@ -1,12 +1,6 @@
 'use client';
+import { User } from '@prisma/client/main';
 import { ReactNode, createContext, useState } from 'react';
-
-export type User = {
-  id?: string;
-  uid: string;
-  email: string;
-  name: string;
-};
 
 export type UserContext = [
   User | null,

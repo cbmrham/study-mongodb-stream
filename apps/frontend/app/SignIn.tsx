@@ -31,8 +31,6 @@ const SignIn = () => {
   });
   const router = useRouter();
 
-  console.log(user);
-
   const handleUidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUid(e.target.value);
   };
@@ -62,7 +60,6 @@ const SignIn = () => {
   };
 
   const onRegister = async () => {
-    console.log(user);
     const res = await fetch('http://localhost:3000/api/users', {
       method: 'POST',
       headers: {

@@ -23,20 +23,26 @@ model User {
   name    String?
   roomIds String[] @db.ObjectId
 
-  rooms Room[] @relation(fields: [roomIds], references: [id])
+  rooms    Room[]     @relation(fields: [roomIds], references: [id])
+  ChatPost ChatPost[]
 }
 
 model Room {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   name    String   @unique
   userIds String[] @db.ObjectId
-  users   User[]   @relation(fields: [userIds], references: [id])
+
+  users    User[]     @relation(fields: [userIds], references: [id])
+  ChatPost ChatPost[]
 }
 
 model ChatPost {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  senderName   String
-  recieverName String?
-  content      String?
-  postedAt     DateTime @default(now())
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  content  String?
+  senderId String   @db.ObjectId
+  roomId   String   @db.ObjectId
+  postedAt DateTime @default(now())
+
+  sender User @relation(fields: [senderId], references: [id])
+  room   Room @relation(fields: [roomId], references: [id])
 }

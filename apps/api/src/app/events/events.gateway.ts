@@ -1,20 +1,17 @@
+import { Inject } from '@nestjs/common';
 import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsResponse,
   ConnectedSocket,
 } from '@nestjs/websockets';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  ChatPost,
+  PrismaService,
+} from '@study-mongodb-stream/prisma-client-main';
+import { BSON, ChangeStream, Collection, Db, ObjectId } from 'mongodb';
 import { Server, Socket } from 'socket.io';
-
-type ChatRecieved = {
-  uname: string;
-  time: string;
-  text: string;
-};
 
 @WebSocketGateway({
   cors: {
@@ -23,46 +20,80 @@ type ChatRecieved = {
 })
 export class EventsGateway {
   @WebSocketServer()
-  server: Server;
+  private readonly server: Server;
+  private readonly chatCollection: Collection<ChatPost>;
+  // stream接続管理用のMap
+  private readonly chatChangeStreams: Map<string, ChangeStream> = new Map();
 
-  @SubscribeMessage('events')
-  findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
-    return from([1, 2, 3]).pipe(
-      map((item) => ({ event: 'events', data: item }))
-    );
+  constructor(
+    @Inject('DATABASE_CONNECTION') private db: Db,
+    private prisma: PrismaService
+  ) {
+    this.chatCollection = this.db.collection<ChatPost>('ChatPost');
   }
-
-  @SubscribeMessage('identity')
-  async identity(@MessageBody() data: number): Promise<number> {
-    return data;
-  }
-
-  //クライアント側から「chatToServer」という名前のメッセージ（？）をリッスン（好きに命名できる）
-  @SubscribeMessage('chatToServer')
-  chatting(
-    @MessageBody() payload: ChatRecieved,
-    @ConnectedSocket() client: Socket
-  ): void {
-    //@MessageBody→受信したデータ
-    //@ConnectedSocket→ユーザーのID（websocketで自動で割り当てられる）や、その他接続に関する情報など
-    console.log('chat受信');
-    console.log(payload);
-    //emit()とすると、指定した名前をリッスンしているクライアントに情報をプッシュできる
-    this.server.emit('chatToClient', { ...payload, socketId: client.id });
-  }
-
+  //初期化時
   afterInit(server: Server) {
-    //初期化
-    console.log('初期化しました。');
+    console.log('server init');
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
-    //クライアント接続時
+  //クライアント接続時
+  handleConnection(client: Socket) {
     console.log(`Client connected: ${client.id}`);
+    console.log(client.handshake.query.roomId);
+    const roomId = client.handshake.query.roomId as string;
+    const chatChangeStream = this.chatCollection.watch<ChatPost>([
+      {
+        $match: {
+          operationType: 'insert',
+          'fullDocument.roomId': new ObjectId(roomId),
+        },
+      },
+    ]);
+    chatChangeStream.on('change', (next: any) => {
+      console.log(next);
+      client.emit('chat:send', next.fullDocument);
+    });
+    // ChangeStreamをマップに保存
+    this.chatChangeStreams.set(client.id, chatChangeStream);
+    // 初期表示のために過去のチャットを送信;
+    this.prisma.chatPost
+      .findMany({
+        where: {
+          roomId: client.handshake.query.roomId as string,
+        },
+        include: {
+          sender: true,
+        },
+      })
+      .then((data) => {
+        client.emit('chat:list', data);
+      });
   }
 
+  @SubscribeMessage('chat:send')
+  chat(@MessageBody() payload: ChatPost): void {
+    this.prisma.chatPost
+      .create({
+        data: {
+          ...payload,
+        },
+        include: {
+          sender: true,
+        },
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  }
+
+  //クライアント切断時
   handleDisconnect(@ConnectedSocket() client: Socket) {
-    //クライアント切断時
     console.log(`Client disconnected: ${client.id}`);
+    // 接続ごとのChangeStreamを閉じる
+    const chatChangeStream = this.chatChangeStreams.get(client.id);
+    if (chatChangeStream) {
+      chatChangeStream.close();
+      this.chatChangeStreams.delete(client.id);
+    }
   }
 }
