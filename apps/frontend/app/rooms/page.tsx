@@ -24,12 +24,12 @@ type Room = {
 };
 
 export default function Rooms() {
-  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const [currentUser] = useContext(UserContext);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [createRoomName, setCreateRoomName] = useState<string>('');
   const router = useRouter();
   if (!currentUser) {
-    router.push('/');
+    router.push('/signin');
   }
   useEffect(() => {
     if (currentUser) {
@@ -48,7 +48,7 @@ export default function Rooms() {
         });
       });
     } else {
-      router.push('/');
+      router.push('/signin');
     }
   }, [currentUser, router]);
 

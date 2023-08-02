@@ -34,11 +34,15 @@ const ChatContainer = ({ user, room }: { user: User; room: Room }) => {
   return (
     <Container maxWidth="lg" sx={{ mt: '20px' }}>
       <Card>
-        <Box ref={ref} sx={{ height: '400px', overflowY: 'scroll' }}>
+        <Box
+          ref={ref}
+          sx={{ height: '400px', overflowY: 'scroll' }}
+          key="chat-container"
+        >
           {postLogs.map((post, index) => (
-            <>
+            <div key={post.id}>
               {index === 0 && (
-                <div key={post.id}>
+                <div>
                   <Typography
                     variant="caption"
                     sx={{
@@ -72,7 +76,6 @@ const ChatContainer = ({ user, room }: { user: User; room: Room }) => {
                   </div>
                 )}
               <Post
-                key={post.id}
                 post={post}
                 position={user.id === post.senderId ? 'right' : 'left'}
                 consecutive={
@@ -83,7 +86,7 @@ const ChatContainer = ({ user, room }: { user: User; room: Room }) => {
                     1000 * 60 * 5
                 }
               />
-            </>
+            </div>
           ))}
         </Box>
         <Box display="flex" flexDirection="row-reverse">

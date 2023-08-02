@@ -15,7 +15,7 @@ export default function Room() {
   const roomId = params?.roomId as string | undefined;
   useEffect(() => {
     if (!currentUser) {
-      router.push('/');
+      router.push('/signin');
     }
   }, [currentUser, router]);
 
@@ -27,11 +27,11 @@ export default function Room() {
           if (room) {
             setRoom(room);
           } else {
-            router.push('/');
+            router.push('/signin');
           }
         });
     } else {
-      router.push('/');
+      router.push('/signin');
     }
   }, [roomId, router]);
 
@@ -44,11 +44,9 @@ export default function Room() {
             {room?.name}
           </Typography>
         </Box>
-        <Container maxWidth="lg" sx={{ mt: '20px' }}>
-          {currentUser && room && (
-            <ChatContainer user={currentUser} room={room} />
-          )}
-        </Container>
+        {currentUser && room && (
+          <ChatContainer user={currentUser} room={room} />
+        )}
       </Container>
     </main>
   );
