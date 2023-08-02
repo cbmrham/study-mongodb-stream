@@ -12,7 +12,8 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { User, UserContext } from '../contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
+import { User } from '@prisma/client/main';
 import { useRouter } from 'next/navigation';
 
 type Room = {
