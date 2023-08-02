@@ -56,7 +56,7 @@ const ChatContainer = ({ user, room }: { user: User; room: Room }) => {
               {index > 0 &&
                 getYMD(new Date(post.postedAt)) !==
                   getYMD(new Date(postLogs[index - 1].postedAt)) && (
-                  <div key={post.id}>
+                  <div key={index}>
                     <Typography
                       variant="caption"
                       sx={{
