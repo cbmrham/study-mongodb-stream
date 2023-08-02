@@ -15,8 +15,6 @@ import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { User } from '@prisma/client/main';
-import { on } from 'events';
-import { sign } from 'crypto';
 
 type UserInput = {
   uid: string;

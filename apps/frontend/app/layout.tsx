@@ -1,7 +1,6 @@
 import ThemeRegistry from './ThemeRegistry';
 import Header from './Header';
 import GlobalContextProvider from './contexts/GlobalContextProvider';
-import { UserContextProvider } from './contexts/UserContext';
 
 export const metadata = {
   title: 'Welcome to frontend',

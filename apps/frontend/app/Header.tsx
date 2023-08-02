@@ -1,5 +1,5 @@
 'use client';
-import { AppBar, Avatar, Box, Grid, Tooltip, Typography } from '@mui/material';
+import { AppBar, Avatar, Box, Tooltip, Typography } from '@mui/material';
 import { useContext } from 'react';
 import { UserContext } from './contexts/UserContext';
 
