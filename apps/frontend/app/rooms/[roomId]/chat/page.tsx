@@ -1,13 +1,13 @@
 'use client';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
 import { UserContext } from '../../../contexts/UserContext';
 import { Room } from '@prisma/client/main';
-import Chat from './chat';
+import ChatContainer from './ChatContainer';
 
-export default function Rooms() {
+export default function Room() {
   const [currentUser] = useContext(UserContext);
   const [room, setRoom] = useState<Room | null>(null);
   const router = useRouter();
@@ -38,10 +38,17 @@ export default function Rooms() {
   return (
     <main>
       <Container maxWidth="lg" sx={{ mt: '20px' }}>
-        <Typography variant="h2" fontWeight={'bold'}>
-          Chat
-        </Typography>
-        {currentUser && room && <Chat user={currentUser} room={room} />}
+        <Box>
+          <Typography variant="h5" fontWeight={'bold'}>
+            <span style={{ fontWeight: 'normal' }}>Room: </span>
+            {room?.name}
+          </Typography>
+        </Box>
+        <Container maxWidth="lg" sx={{ mt: '20px' }}>
+          {currentUser && room && (
+            <ChatContainer user={currentUser} room={room} />
+          )}
+        </Container>
       </Container>
     </main>
   );
