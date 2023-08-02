@@ -1312,6 +1312,16 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource-variable/noto-sans-jp@^5.0.5":
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/noto-sans-jp/-/noto-sans-jp-5.0.5.tgz#490944e8631f82509b170a039ad0898e578297d4"
+  integrity sha512-wqGP9u9TO8nm2Xl+dW2P1Q7HnbxzYlbc1FlBYWLLgH7fKw1VSlqnO1ECKsLjjw4XMvOXWm/06b2OLtAVnCc25Q==
+
+"@fontsource/noto-sans-jp@^5.0.5":
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-jp/-/noto-sans-jp-5.0.5.tgz#2703e9df783d53d2c1ec0450f0814ca51d239227"
+  integrity sha512-ixFlbHEtu2pqGkGv+H8qxWvP7VEiavp72OslASRq+sbCPxgFvAYuMpetQkavrr3qVZQciROdb/Hpor/tQ5c1PQ==
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.5"
   resolved "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.9.5.tgz"

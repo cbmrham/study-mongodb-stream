@@ -1,5 +1,5 @@
 import ThemeRegistry from './ThemeRegistry';
-import './global.css';
+import { AppBar, Typography, Grid } from '@mui/material';
 
 export const metadata = {
   title: 'Welcome to frontend',
@@ -11,7 +11,20 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
+        <ThemeRegistry options={{ key: 'mui' }}>
+          <AppBar position="static">
+            <Grid container>
+              <Grid item xs={2} />
+              <Grid item xs={8}>
+                <Typography variant="h1" fontWeight="bold" fontSize={'4rem'}>
+                  ChatApp
+                </Typography>
+              </Grid>
+              <Grid item xs={2} />
+            </Grid>
+          </AppBar>
+          {children}
+        </ThemeRegistry>
       </body>
     </html>
   );

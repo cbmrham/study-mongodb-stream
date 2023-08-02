@@ -1,18 +1,29 @@
-// app/ThemeRegistry.tsx
 'use client';
 import createCache from '@emotion/cache';
 import { useServerInsertedHTML } from 'next/navigation';
 import { CacheProvider } from '@emotion/react';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, ThemeOptions, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
 
-const theme = {};
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#b5249d',
+    },
+    secondary: {
+      main: '#5de6ca',
+    },
+  },
+  typography: {
+    fontFamily: ['Noto Sans JP', 'sans-serif'].join(','),
+  },
+});
 
 // This implementation is from emotion-js
 // https://github.com/emotion-js/emotion/issues/2928#issuecomment-1319747902
 export default function ThemeRegistry(props: {
-  options: Parameters<typeof createCache>[0];
+  options: { key: string };
   children: React.ReactNode;
 }) {
   const { options, children } = props;

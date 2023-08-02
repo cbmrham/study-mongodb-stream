@@ -1,17 +1,15 @@
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import { Grid, Card, Container, Typography } from '@mui/material';
 
 export default function Home() {
   return (
     <main>
-      <Container>
-        <Box>
-          <Card>
-            <Typography variant="h2">Hello World</Typography>
-          </Card>
-        </Box>
+      <Container maxWidth="lg" sx={{ mt: '20px' }}>
+        <Typography variant="h2" fontWeight={'bold'}>
+          Hello World
+        </Typography>
+        <Container maxWidth="lg" sx={{ mt: '20px' }}>
+          <Card>content</Card>
+        </Container>
       </Container>
     </main>
   );

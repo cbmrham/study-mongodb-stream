@@ -10,6 +10,8 @@
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@fontsource-variable/noto-sans-jp": "^5.0.5",
+    "@fontsource/noto-sans-jp": "^5.0.5",
     "@mui/material": "^5.14.2",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
