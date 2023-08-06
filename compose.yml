@@ -1,17 +1,23 @@
 version: '3'
 
 services:
-  db:
-    # https://github.com/CandisIO/mongo-replica-set
-    image: candis/mongo-replica-set
+  mongo:
+    image: mongo:6.0.6
+    environment:
+      - AUTH=no
+      # ホストマシンから繋ぎたいとき
+      - MONGO_REPLICA_HOST=localhost
+      # 他のコンテナから繋ぎたいとき
+      # - MONGO_REPLICA_HOST=host.docker.internal
+    command: [--replSet, rs0, --noauth, --bind_ip_all]
     ports:
       - 27017:27017
-      - 27018:27018
-      - 27019:27019
+    healthcheck:
+      test: mongosh mongo-init.js
+      interval: 10s
+      start_period: 30s
     volumes:
-      - ./docker/db/data/mongo1:/var/lib/mongo1
-      - ./docker/db/data/mongo2:/var/lib/mongo2
-      - ./docker/db/data/mongo3:/var/lib/mongo3
-      - ./docker/db/log/mongo1:/var/log/mongo1
-      - ./docker/db/log/mongo2:/var/log/mongo2
-      - ./docker/db/log/mongo3:/var/log/mongo3
+      # 他のコンテナから繋ぎたいとき
+      - ./docker/mongo/data:/data/db
+      - ./docker/scripts/mongo-init.js:/mongo-init.js
+    restart: always
