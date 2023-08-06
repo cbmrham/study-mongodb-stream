@@ -14,8 +14,9 @@ import { Prisma } from '@prisma/client/main';
 export class UsersController {
   constructor(private readonly service: UsersService) {}
 
-  @Post('login')
+  @Post('signin')
   login(@Body() body: Prisma.UserWhereUniqueInput) {
+    console.log('signin');
     return this.service.get(body);
   }
 

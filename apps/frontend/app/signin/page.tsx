@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { User } from '@prisma/client/main';
 
@@ -23,7 +23,7 @@ type UserInput = {
 };
 
 const SignIn = () => {
-  const [, setCurrentUser] = useContext(UserContext);
+  const [currentUser, setCurrentUser] = useContext(UserContext);
   const [uid, setUid] = useState<string>('');
   const [user, setUser] = useState<UserInput>({
     uid: '',
@@ -31,6 +31,9 @@ const SignIn = () => {
     name: '',
   });
   const router = useRouter();
+  useEffect(() => {
+    if (currentUser) router.push('/');
+  }, [currentUser, router]);
 
   const handleUidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUid(e.target.value);
@@ -41,19 +44,23 @@ const SignIn = () => {
   };
 
   const signIn = async (uid: string) => {
-    const res = await fetch(`http://localhost:3000/api/users/login`, {
+    const res = await fetch(`http://localhost:3000/api/users/signin`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json', // コンテンツタイプをJSONに設定
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ uid }),
     }).then((res) => {
       if (!res.ok) {
-        alert('ユーザーが見つかりません');
-        return;
+        return null;
       }
       return res.json();
     });
+    console.log(res);
+    if (!res) {
+      alert('ユーザー認証に失敗しました');
+      return;
+    }
 
     setCurrentUser(res as User);
     router.push('/');
@@ -63,11 +70,11 @@ const SignIn = () => {
     signIn(uid);
   };
 
-  const onRegister = async () => {
+  const onSignUp = async () => {
     const res = await fetch('http://localhost:3000/api/users', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json', // コンテンツタイプをJSONに設定
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
     });
@@ -111,13 +118,12 @@ const SignIn = () => {
               </Box>
             </Container>
           </Card>
-          <Typography variant="body1" fontWeight={'bold'}>
-            <Divider sx={{ mt: '20px', mb: '20px' }} />
-          </Typography>
+          <Typography variant="h4">Or sign up</Typography>
+          <Divider sx={{ mt: '20px', mb: '20px' }} />
           <Card>
             <Container maxWidth="lg" sx={{ mt: '20px', mb: '20px' }}>
               <Typography variant="body1" fontWeight={'bold'}>
-                Or register
+                Enter your information
               </Typography>
               <List>
                 <ListItem>
@@ -155,12 +161,8 @@ const SignIn = () => {
                   alignItems: 'center',
                 }}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={onRegister}
-                >
-                  Register
+                <Button variant="contained" color="primary" onClick={onSignUp}>
+                  Sign up
                 </Button>
               </Box>
             </Container>

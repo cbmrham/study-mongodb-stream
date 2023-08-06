@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   Prisma,
   PrismaService,
@@ -10,9 +10,17 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async get(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
-    return this.prisma.user.findUnique({
-      where: userWhereUniqueInput,
-    });
+    return this.prisma.user
+      .findUnique({
+        where: userWhereUniqueInput,
+      })
+      .then((user) => {
+        if (!user) {
+          throw new NotFoundException();
+        } else {
+          return user;
+        }
+      });
   }
 
   async index(options: {
