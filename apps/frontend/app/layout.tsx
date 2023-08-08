@@ -1,4 +1,4 @@
-import ThemeRegistry from './ThemeRegistry';
+import ThemeRegistry from './_theme/ThemeRegistry';
 import Header from './Header';
 import GlobalContextProvider from './contexts/GlobalContextProvider';
 
@@ -12,7 +12,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <ThemeRegistry options={{ key: 'mui' }}>
+        <ThemeRegistry>
           <GlobalContextProvider>
             <Header />
             {children}

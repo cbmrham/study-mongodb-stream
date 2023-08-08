@@ -118,8 +118,10 @@ const SignIn = () => {
               </Box>
             </Container>
           </Card>
-          <Typography variant="h4">Or sign up</Typography>
           <Divider sx={{ mt: '20px', mb: '20px' }} />
+          <Typography variant="h4" sx={{ mt: '20px' }}>
+            Or sign up
+          </Typography>
           <Card>
             <Container maxWidth="lg" sx={{ mt: '20px', mb: '20px' }}>
               <Typography variant="body1" fontWeight={'bold'}>
