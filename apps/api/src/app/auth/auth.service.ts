@@ -22,4 +22,9 @@ export class AuthService {
     await this.usersService.create(data);
     return this.signIn(data.uid);
   }
+
+  async me(token: string) {
+    const { uid } = await this.jwtService.verifyAsync(token);
+    return this.usersService.get({ uid });
+  }
 }

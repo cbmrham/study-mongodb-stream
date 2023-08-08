@@ -17,12 +17,6 @@ import { AuthGuard } from '../auth/auth.guard';
 export class UsersController {
   constructor(private readonly service: UsersService) {}
 
-  @Post('signin')
-  login(@Body() body: Prisma.UserWhereUniqueInput) {
-    console.log('signin');
-    return this.service.get(body);
-  }
-
   @Get(':id')
   get(@Param('id') id: string) {
     return this.service.get({ id });

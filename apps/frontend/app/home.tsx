@@ -11,8 +11,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../_contexts/UserContext';
+import { useEffect, useState } from 'react';
 import { User } from '@prisma/client/main';
 import { useRouter } from 'next/navigation';
 
@@ -23,15 +22,12 @@ type Room = {
   users: User[];
 };
 
-export default function Rooms() {
-  const [currentUser] = useContext(UserContext);
+export default function Home({ currentUser }: { currentUser: User }) {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [createRoomName, setCreateRoomName] = useState<string>('');
   const router = useRouter();
-  if (!currentUser) {
-    router.push('/signin');
-  }
   useEffect(() => {
+    console.log(currentUser);
     if (currentUser) {
       fetch(`http://localhost:3000/api/rooms`, {
         method: 'GET',
@@ -48,7 +44,7 @@ export default function Rooms() {
         });
       });
     } else {
-      router.push('/signin');
+      // router.push('/signin');
     }
   }, [currentUser, router]);
 
