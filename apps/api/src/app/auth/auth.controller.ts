@@ -20,11 +20,10 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   signIn(@Body() body) {
-    console.log('body', body);
     return this.authService.signIn(body.uid);
   }
 
-  @Post('singup')
+  @Post('signup')
   signUp(@Body() body: Prisma.UserCreateInput) {
     return this.authService.signup(body);
   }

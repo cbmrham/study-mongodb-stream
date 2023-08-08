@@ -10,21 +10,6 @@ import {
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-// export default function AddToCart({ productId }) {
-//   async function addItem(data) {
-//     'use server';
-
-//     const cartId = cookies().get('cartId')?.value;
-//     await saveToDb({ cartId, data });
-//   }
-
-//   return (
-//     <form action={addItem}>
-//       <button type="submit">Add to Cart</button>
-//     </form>
-//   );
-// }
-
 const SignIn = () => {
   async function signin(data: FormData) {
     'use server';
@@ -49,7 +34,6 @@ const SignIn = () => {
     }
     cookies().set('token', token);
     redirect('/');
-    //  = `token=${token}`;
   }
 
   return (

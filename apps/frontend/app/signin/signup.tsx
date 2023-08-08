@@ -1,123 +1,76 @@
-'use client';
-
 import {
   Box,
   Button,
-  Card,
   Container,
-  Divider,
   List,
   ListItem,
   TextField,
   Typography,
 } from '@mui/material';
-import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../_contexts/UserContext';
-import { User } from '@prisma/client/main';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
-type UserInput = {
-  uid: string;
-  email: string;
-  name: string;
-};
+const SignIn = async () => {
+  async function signup(data: FormData) {
+    'use server';
 
-const SignIn = () => {
-  const [currentUser, setCurrentUser] = useContext(UserContext);
-  const [user, setUser] = useState<UserInput>({
-    uid: '',
-    email: '',
-    name: '',
-  });
-  const router = useRouter();
-  useEffect(() => {
-    if (currentUser) router.push('/');
-  }, [currentUser, router]);
-
-  const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
-  const signIn = async (uid: string) => {
-    const res = await fetch(`http://localhost:3000/api/users/signin`, {
+    const uid = data.get('uid');
+    const name = data.get('name');
+    const res = await fetch(`http://localhost:3000/api/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ uid }),
+      body: JSON.stringify({ uid, name }),
     }).then((res) => {
       if (!res.ok) {
         return null;
       }
       return res.json();
     });
-    if (!res) {
+    const token = res?.access_token;
+    if (!token) {
       return;
     }
-
-    setCurrentUser(res as User);
-    router.push('/');
-  };
-
-  const onSignUp = async () => {
-    const res = await fetch('http://localhost:3000/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user),
-    });
-    if (!res.ok) {
-      alert('ユーザー登録に失敗しました');
-      return;
-    }
-    signIn(user.uid);
-  };
+    cookies().set('token', token);
+    redirect('/');
+  }
   return (
     <Container maxWidth="lg" sx={{ mt: '20px', mb: '20px' }}>
       <Typography variant="body1" fontWeight={'bold'}>
         Enter your information
       </Typography>
-      <List>
-        <ListItem>
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={'User id'}
-            onChange={handleUserChange}
-            name="uid"
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={'Email'}
-            onChange={handleUserChange}
-            name="email"
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-            fullWidth
-            variant="outlined"
-            label={'Name'}
-            onChange={handleUserChange}
-            name="name"
-          />
-        </ListItem>
-      </List>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-      >
-        <Button variant="contained" color="primary" onClick={onSignUp}>
-          Sign up
-        </Button>
-      </Box>
+      <form action={signup}>
+        <List>
+          <ListItem>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={'User id'}
+              name="uid"
+            />
+          </ListItem>
+          <ListItem>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={'Name'}
+              name="name"
+            />
+          </ListItem>
+        </List>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
+          <Button variant="contained" color="primary" type="submit">
+            Sign up
+          </Button>
+        </Box>
+      </form>
     </Container>
   );
 };
