@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../_contexts/UserContext';
 import { User } from '@prisma/client/main';
 import { useRouter } from 'next/navigation';
 

@@ -1,10 +1,19 @@
 'use client';
 import { AppBar, Avatar, Box, Tooltip, Typography } from '@mui/material';
-import { useContext } from 'react';
-import { UserContext } from './contexts/UserContext';
+import { useContext, useEffect } from 'react';
+import { UserContext } from './_contexts/UserContext';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const [currentUser] = useContext(UserContext);
+  const router = useRouter();
+  const pathname = usePathname();
+  useEffect(() => {
+    if (!currentUser && pathname !== '/signin') {
+      router.push('/signin');
+    }
+  }, [currentUser, router, pathname]);
   return (
     <AppBar position="static">
       <Box

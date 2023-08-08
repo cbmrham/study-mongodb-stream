@@ -3,7 +3,7 @@ import { Box, Container, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
-import { UserContext } from '../../../contexts/UserContext';
+import { UserContext } from '../../../_contexts/UserContext';
 import { Room } from '@prisma/client/main';
 import ChatContainer from './ChatContainer';
 
