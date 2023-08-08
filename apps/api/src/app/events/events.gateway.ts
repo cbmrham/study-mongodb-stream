@@ -51,7 +51,18 @@ export class EventsGateway {
     ]);
     chatChangeStream.on('change', (next: any) => {
       console.log(next);
-      client.emit('chat:send', next.fullDocument);
+      this.prisma.chatPost
+        .findUnique({
+          where: {
+            id: next.documentKey._id.toString() as string,
+          },
+          include: {
+            sender: true,
+          },
+        })
+        .then((data) => {
+          client.emit('chat:send', data);
+        });
     });
     // ChangeStreamをマップに保存
     this.chatChangeStreams.set(client.id, chatChangeStream);
