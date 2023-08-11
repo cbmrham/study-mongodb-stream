@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Card,
   Container,
@@ -7,11 +6,11 @@ import {
   List,
   ListItem,
   ListItemText,
-  TextField,
   Typography,
 } from '@mui/material';
-import { fetchRooms, createRoom } from './_actions/rooms';
+import { fetchRooms } from './_actions/rooms';
 import { Room } from '@prisma/client/main';
+import CreateRoomForm from './_components/server/rooms/createRoomForm';
 
 async function RoomItem(props: { room: Room }) {
   const { room } = props;
@@ -24,15 +23,6 @@ async function RoomItem(props: { room: Room }) {
     </ListItem>
   );
 }
-
-const create = async function (data: FormData) {
-  'use server';
-  const name = data.get('name');
-  if (!name) {
-    return;
-  }
-  createRoom({ name: name.toString() });
-};
 
 export default async function Home() {
   const rooms = await fetchRooms();
@@ -75,30 +65,7 @@ export default async function Home() {
         <Container maxWidth="lg" sx={{ mt: '20px' }}>
           <Card>
             <Container maxWidth="lg" sx={{ pt: '20px', pb: '20px' }}>
-              <form action={create}>
-                <List>
-                  <ListItem>
-                    <TextField
-                      fullWidth
-                      label="Room Name"
-                      placeholder="Room Name"
-                      name="name"
-                      variant="outlined"
-                    />
-                  </ListItem>
-                </List>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Button variant="contained" color="primary" type="submit">
-                    Create
-                  </Button>
-                </Box>
-              </form>
+              <CreateRoomForm />
             </Container>
           </Card>
         </Container>
