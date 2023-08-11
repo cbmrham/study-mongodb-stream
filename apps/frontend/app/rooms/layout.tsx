@@ -1,4 +1,5 @@
-import { authorized } from '../_helpers/auth';
+import { redirect } from 'next/navigation';
+import { accessToken } from '../_helpers/auth';
 
 export const metadata = {
   title: 'Welcome to frontend',
@@ -7,6 +8,8 @@ export const metadata = {
 
 export default async function Layout(props: { children: React.ReactNode }) {
   const { children } = props;
-  authorized();
+  if (!accessToken()) {
+    redirect('/signin');
+  }
   return <>{children}</>;
 }

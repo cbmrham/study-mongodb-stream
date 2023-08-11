@@ -1,14 +1,18 @@
-import { authorized } from './_helpers/auth';
-import Home from './home';
+import { cookies } from 'next/headers';
 import { me } from './_actions/me';
+import HomePage from './home';
+import { redirect } from 'next/navigation';
+import { accessToken } from './_helpers/auth';
 
-export const Page = async (props: { children: React.ReactNode }) => {
-  authorized();
-  const currenUser = await me();
+export default async function Home() {
+  const token = await accessToken();
+  if (!token) {
+    redirect('/signin');
+  }
+  const currentUser = await me();
   return (
     <div>
-      <Home currentUser={currenUser} />
+      <HomePage currentUser={currentUser} />
     </div>
   );
-};
-export default Page;
+}
