@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
 } from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { Prisma } from '@prisma/client/main';
@@ -15,8 +16,8 @@ export class RoomsController {
   constructor(private readonly service: RoomsService) {}
 
   @Get()
-  index(@Body() body: any) {
-    return this.service.index(body);
+  index(@Request() req) {
+    return this.service.index({});
   }
 
   @Get(':id')
@@ -25,8 +26,7 @@ export class RoomsController {
   }
 
   @Post()
-  create(@Body() body: Prisma.RoomCreateInput) {
-    console.log(body);
+  create(@Request() req, @Body() body: Prisma.RoomCreateInput) {
     return this.service.create(body);
   }
 
