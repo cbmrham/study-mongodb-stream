@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { accessToken } from '../_helpers/auth';
+import { accessToken } from '../_actions/accessToken';
 
 export const metadata = {
   title: 'Welcome to frontend',

@@ -8,4 +8,3 @@ export async function accessToken() {
   }
   return token.value;
 }
- 
