@@ -1,6 +1,7 @@
 'use server';
 import { Box, Button, List, ListItem, TextField } from '@mui/material';
 import { createRoom } from '../../../_actions/rooms';
+import { revalidatePath } from 'next/cache';
 
 export async function create(data: FormData) {
   const name = data.get('name');
@@ -8,6 +9,7 @@ export async function create(data: FormData) {
     return;
   }
   createRoom({ name: name.toString() });
+  revalidatePath('/');
 }
 
 export default async function CreateRoomForm() {
