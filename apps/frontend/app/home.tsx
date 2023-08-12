@@ -11,13 +11,23 @@ import {
 import { fetchRooms } from './_actions/rooms';
 import { Room } from '@prisma/client/main';
 import CreateRoomForm from './_components/server/rooms/createRoomForm';
+import Link from 'next/link';
+import { forwardRef } from 'react';
 
 async function RoomItem(props: { room: Room }) {
   const { room } = props;
   return (
     <ListItem
       key={room.id}
-      secondaryAction={<Button variant="contained">Join</Button>}
+      secondaryAction={
+        <Button
+          variant="contained"
+          LinkComponent={Link}
+          href={`/rooms/${room.id}/chat`}
+        >
+          Join
+        </Button>
+      }
     >
       <ListItemText sx={{ w: '100%' }} primary={room.name} />
     </ListItem>
